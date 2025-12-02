@@ -2,8 +2,8 @@
 
 ## 📌 Содержание
 - app/ — FastAPI-приложение (Hello, ITMO!)
-- bad/Dockerfile — пример плохого Dockerfile
-- good/Dockerfile — улучшенный Dockerfile с best practices
+- docker_bad — пример плохого Dockerfile
+- docker_good — улучшенный Dockerfile с best practices
 - requirements.txt — зависимости для приложения
 
 ---
