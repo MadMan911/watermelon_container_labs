@@ -6,17 +6,17 @@
 
 
 Устанавливаем brew
-![[./screenshots_lab3/2.png]]
+![2](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/02.png)
 с помощью brew устанавливаем кубер (kubectl и minicube)
-![[./screenshots_lab3/3.png]]
+![3](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/03.png)
 проверяем версию куб-контрола.
 
-![[./screenshots_lab3/4.png]]
+![4](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/04.png)
 Запускаем кластер командой 
 ```bash
 minikube start --driver=docker
 ```
-![[./screenshots_lab3/5.png]]
+![5](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/05.png)
 Проверь контейнеры Docker:
 ![[./screenshots_lab3/6.png]]
 
