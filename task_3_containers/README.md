@@ -2,7 +2,7 @@
 
 устанавливаем и проверяем, что десктоп версия докера запущена.
 
-![123](https://github.com/MadMan911/watermelon_container_labs/screenshots_lab3/1.png)
+![123](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/01.png)
 
 
 Устанавливаем brew
