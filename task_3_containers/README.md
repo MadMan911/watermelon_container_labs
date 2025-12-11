@@ -17,54 +17,56 @@
 minikube start --driver=docker
 ```
 ![5](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/05.png)
-Проверь контейнеры Docker:
-![[./screenshots_lab3/6.png]]
+Проверяем контейнеры Docker:
+![6](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/06.png)
 
 kubectl config view
 kubectl get nodes
 
-![[./screenshots_lab3/7.png]]
+![7](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/07.png)
 ## Сделаем сразу правильный вариант 
 ```
 Для постгреса перенести POSTGRES_USER и POSTGRES_PASSWORD из конфигмапы в секреты.
 ```
 
-![[./screenshots_lab3/7.png]]
+![8](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/08.png)
 
 Порядок имеет значение для объектов, от которых зависят другие (ConfigMap/Secret → Deployment). Сервис можно создавать в любое время, но удобнее после Podов.
 
-![[./screenshots_lab3/8.png]]
+![9](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/09.png)
 
 
 
 
-![[./screenshots_lab3/9.png]]
+![10](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/10.png)
 
-![[./screenshots_lab3/10.png]]
+![11](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/11.png)
 
-![[./screenshots_lab3/11.png]]
+![12](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/12.png)
 
 
-![[./screenshots_lab3/12.png]]
+![13](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/13.png)
 
 видно тип `Opaque` и размер, но не пароль:
-![[./screenshots_lab3/13.png]]
-![[./screenshots_lab3/14.png]]
+![14](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/14.png)
 
-![[./screenshots_lab3/15.png]]![[./screenshots_lab3/16.png]]
-![[./screenshots_lab3/17.png]]
+![17](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/17.png)
 
-![[./screenshots_lab3/18.png]]
+![18](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/18.png)
 
-![[./screenshots_lab3/19.png]]
+![19](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/19.png)
+
+![20](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/20.png)
+
+![21](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/21.png)
 
 
-![[./screenshots_lab3/20.png]]
+![22](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/22.png)
 - При `replicas=0` pod Postgres удаляется, а вместе с ним и все данные, потому что мы не настраивали PersistentVolume — база хранится в файловой системе контейнера.
     
 - При `replicas=1` под создаётся заново с пустой БД.  
     В результате Nextcloud либо предлагает сделать повторную установку, либо выдаёт ошибку — прежние пользователи и данные пропали.
-![[./screenshots_lab3/21.png]]
+![23](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_3_containers/screenshots_lab3/23.png)
 
 
 > Важен ли порядок выполнения этих манифестов? Почему?
