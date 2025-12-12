@@ -19,43 +19,43 @@
 
 ![S04](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S04.png)
 
-## 4. Сборка кастомных образов
+## 3. Сборка кастомных образов
 Сборка FastAPI образа.
 
-![S05](./screenshots_lab4/05.png)
+![S05](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S05.png)
 
 Сборка JupyterHub образа.
 
-![S06](./screenshots_lab4/06.png)
+![S06](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S06.png)
 
-## 8. Проверка созданных ресурсов
+## 4. Проверка созданных ресурсов
 Проверяем все ресурсы в namespace.
 
-![S11](./screenshots_lab4/11.png)
-![S12](./screenshots_lab4/12.png)
-![S13](./screenshots_lab4/13.png)
-![S14](./screenshots_lab4/14.png)
+![S11](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S11.png)
+![S12](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S12.png)
+![S13](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S13.png)
+![S14](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S14.png)
 
-## 9. Проверка доступа к сервисам
-### 9.1 FastAPI
+## 5. Проверка доступа к сервисам
+### 5.1 FastAPI
 Открываем сервис через `minikube service fastapi-service --url` и убеждаемся, что `/` возвращает JSON.
 
-![S15_1](./screenshots_lab4/15_1.png)
-![S15_2](./screenshots_lab4/15_2.png)
+![S15_1](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S15_1.png)
+![S15_2](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S15_2.png)
 
-### 9.2 JupyterHub
+### 5.2 JupyterHub
 Открываем сервис через `minikube service jupyterhub-service --url`.
 
-![S16_1](./screenshots_lab4/16_1.png)
-![S16_2](./screenshots_lab4/16_2.png)
+![S16_1](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S16_1.png)
+![S16_2](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S16_2.png)
 
-## 10. Kubernetes Dashboard
+## 6. Kubernetes Dashboard
 Запускаем `minikube dashboard --url` и проверяем deployments/pods.
 
-![S17_1](./screenshots_lab4/17_1.png)
-![S17_2](./screenshots_lab4/17_2.png)
+![S17_1](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S17_1.png)
+![S17_2](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S17_2.png)
 
-## 12. Заключение
+## 7. Заключение
 - Создано 3 deploymentа (postgres, jupyterhub, fastapi).
 - Кастомный образ: fastapi-itmo:1.0 и jupyterhub-itmo:1.0.
 - initContainer: в Deployment `jupyterhub` (`wait-postgres`).
