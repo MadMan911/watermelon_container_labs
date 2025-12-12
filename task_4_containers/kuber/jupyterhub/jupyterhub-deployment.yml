@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyterhub
+  labels:
+    app: jupyterhub
+    tier: app
+    lab: "4"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jupyterhub
+  template:
+    metadata:
+      labels:
+        app: jupyterhub
+        tier: app
+        lab: "4"
+    spec:
+      initContainers:
+        - name: wait-postgres
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z postgres-service 5432; do
+                echo "waiting for postgres...";
+                sleep 2;
+              done;
+              echo "postgres is ready";
+      containers:
+        - name: jupyterhub
+          image: jupyterhub-itmo:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_HOST
+              value: postgres-service
+          envFrom:
+            - configMapRef:
+                name: postgres-configmap
+            - secretRef:
+                name: postgres-secret
+          command: ["jupyterhub", "--log-level=INFO", "-f", "/srv/jupyterhub_config.py"]
+          volumeMounts:
+            - name: jupyterhub-config
+              mountPath: /srv/jupyterhub_config.py
+              subPath: jupyterhub_config.py
+      volumes:
+        - name: jupyterhub-config
+          configMap:
+            name: jupyterhub-configmap

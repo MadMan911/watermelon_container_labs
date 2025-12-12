@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi
+  labels:
+    app: fastapi
+    tier: api
+    lab: "4"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+        tier: api
+        lab: "4"
+        owner: "madman911"
+    spec:
+      containers:
+        - name: fastapi
+          image: fastapi-itmo:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: fastapi-configmap
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
