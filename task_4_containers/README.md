@@ -5,19 +5,19 @@
 ## 2. Подготовка окружения
 Проверяем запуск Docker Desktop.
 
-![S01](./screenshots_lab4/01.png)
+![S01](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S01.png)
 
 Проверяем версии kubectl и minikube.
 
-![S02](./screenshots_lab4/02.png)
+![S02](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S02.png)
 
 Запускаем minikube.
 
-![S03](./screenshots_lab4/03.png)
+![S03](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S03.png)
 
 Проверяем состояние кластера.
 
-![S04](./screenshots_lab4/04.png)
+![S04](https://github.com/MadMan911/watermelon_container_labs/blob/main/task_4_containers/screenshots_lab4/S04.png)
 
 ## 4. Сборка кастомных образов
 Сборка FastAPI образа.
