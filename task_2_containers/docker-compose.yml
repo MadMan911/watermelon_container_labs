@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+  # Init сервис - одноразовый контейнер для инициализации БД
+  init:
+    image: python:3.9-slim
+    container_name: jupyter_init_container
+    volumes:
+      - ./init_db.py:/init_db.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["python", "/init_db.py"]
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - jupyter_network
+    profiles:
+      - init  # Одноразовый сервис, запускается только при необходимости
+
+  # Основное приложение - JupyterHub
+  jupyterhub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jupyterhub-custom:latest
+    container_name: jupyterhub_app_container
+    volumes:
+      - ./jupyterhub_config.py:/srv/jupyterhub_config.py:ro
+      - jupyterhub_data:/var/lib/jupyterhub
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${JUPYTER_PORT}:8000"
+    command: ["-f", "/srv/jupyterhub_config.py"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/hub/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    environment:
+      - JUPYTERHUB_DB_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${JUPYTERHUB_DB}
+    networks:
+      - jupyter_network
+    restart: unless-stopped
+
+  # База данных PostgreSQL
+  postgres:
+    image: postgres:14
+    container_name: postgres_db_container
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - jupyter_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  jupyterhub_data:
+
+networks:
+  jupyter_network:
+    driver: bridge
