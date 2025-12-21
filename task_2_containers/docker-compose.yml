@@ -10,17 +10,14 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: ["python", "/init_db.py"]
-    environment:
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+    command: >
+      sh -c "pip install --no-cache-dir psycopg2-binary &&
+             python /init_db.py"
+    env_file:
+      - .env
     networks:
       - jupyter_network
-    profiles:
-      - init  # Одноразовый сервис, запускается только при необходимости
+    restart: on-failure
 
   # Основное приложение - JupyterHub
   jupyterhub:
@@ -46,6 +43,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    env_file:
+      - .env
     environment:
       - JUPYTERHUB_DB_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${JUPYTERHUB_DB}
     networks:
@@ -56,10 +55,8 @@ services:
   postgres:
     image: postgres:14
     container_name: postgres_db_container
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

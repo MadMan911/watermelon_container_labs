@@ -22,11 +22,14 @@
 
 ### Init Service
 - **Образ**: python:3.9-slim
-- **Назначение**: Инициализация базы данных для JupyterHub
+- **Назначение**: инициализация базы данных для jupyterhub
 - **Особенности**:
-  - Одноразовый контейнер (profiles: init)
-  - Ждет готовности PostgreSQL
-  - Создает базу данных jupyterhub_db при необходимости
+  - одноразовый контейнер (автоматически запускается при `docker compose up`)
+  - устанавливает psycopg2-binary для работы с postgresql
+  - ждет готовности postgresql через healthcheck
+  - создает базу данных jupyterhub_db при необходимости
+  - завершается с правильным exit code (0 при успехе, 1 при ошибке)
+  - restart: on-failure для повторных попыток при временных сбоях
 
 ### JupyterHub Service
 - **Образ**: Собственный (jupyterhub-custom:latest), собирается из Dockerfile
@@ -46,25 +49,40 @@
 ## Запуск
 
 ```bash
-# Запуск всех сервисов
-docker-compose up -d
+# создайте .env файл (если еще не создан)
+# скопируйте из .env.example или создайте вручную
 
-# Запуск только инициализации и JupyterHub (без БД)
-docker-compose --profile init up jupyterhub
+# запуск всех сервисов (init автоматически запустится первым)
+docker compose up -d
 
-# Остановка
-docker-compose down
+# просмотр логов
+docker compose logs -f
 
-# Остановка с удалением volumes
-docker-compose down -v
+# остановка
+docker compose down
+
+# остановка с удалением volumes (удалит все данные)
+docker compose down -v
 ```
 
 ## Переменные окружения (.env)
 
-Все переменные определены в файле `.env`:
-- `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` - настройки PostgreSQL
-- `JUPYTER_PORT` - порт для JupyterHub
-- `JUPYTERHUB_DB` - имя базы данных для JupyterHub
+Создайте файл `.env` в корневой директории проекта со следующими переменными:
+
+```env
+# PostgreSQL настройки
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres_secure_password
+POSTGRES_DB=postgres
+
+# JupyterHub настройки
+JUPYTER_PORT=8000
+JUPYTERHUB_DB=jupyterhub_db
+```
+
+Все сервисы используют `env_file: .env` вместо явного прописывания переменных.
 
 ## Сеть
 
